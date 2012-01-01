@@ -10,3 +10,6 @@
 <cfset set(timeStampOnCreateProperty="created_at")>
 <cfset set(timeStampOnUpdateProperty="updated_at")>
 <cfset set(softDeleteProperty="deleted_at")>
+
+<cfset set(use_foreign_keys=true)>
+<cfset set(invoice_purchase="")>
