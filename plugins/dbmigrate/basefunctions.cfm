@@ -14,6 +14,7 @@
 
 <cffunction name="$execute" access="private">
 	<cfargument name="sql" type="string" required="yes">
+	<!---<cfdump var="#arguments.sql#"><cfabort>--->
 	<cfscript>
 	// trim and remove trailing semicolon (appears to cause problems for Oracle thin client JDBC driver)
 	arguments.sql = REReplace(trim(arguments.sql),";$","","ONE");
@@ -21,9 +22,12 @@
 		$file(action="append",file=Request.migrationSQLFile,output="#arguments.sql#;",addNewLine="yes",fixNewLine="yes");
 	}
 	</cfscript>
+	<cftry>
 	<cfquery datasource="#application.wheels.dataSourceName#" username="#application.wheels.dataSourceUserName#" password="#application.wheels.dataSourcePassword#">
 	#PreserveSingleQuotes(arguments.sql)#
 	</cfquery>
+	<cfcatch type="any"><cfdump var="#cfcatch#"><cfabort></cfcatch>
+	</cftry>
 </cffunction>
 
 <cffunction name="$getDBType" returntype="string" access="private" output="false">
